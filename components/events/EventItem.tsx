@@ -1,11 +1,14 @@
 import React from 'react';
-import Button from '../ui/button';
+import Button from '../ui/Button';
 import classes from './event-item.module.css';
+import DateIcon from '../icons/date-icon';
+import AddressIcon from '../icons/address-icon';
+import ArrowRight from '../icons/arrow-right-icon';
 
 const EventItem = (props: any) => {
   const { title, image, date, location, id } = props.eventItem;
   const goodDate = new Date(date).toLocaleDateString('en-US');
-  const exploreLink = '/';
+  const exploreLink = '/events/' + id;
   return (
     <li className={classes.item}>
       <img src={'/' + image} alt="" />
@@ -13,14 +16,21 @@ const EventItem = (props: any) => {
         <div className={classes.summary}>
           <h2>{title}</h2>
           <div className={classes.date}>
+            <DateIcon />
             <time>{goodDate}</time>
           </div>
           <div className={classes.address}>
+            <AddressIcon />
             <address>{location}</address>
           </div>
         </div>
         <div className={classes.action}>
-          <Button link={exploreLink}>Explore Event</Button>
+          <Button link={exploreLink}>
+            <span>Explore Event</span>
+            <span className={classes.icon}>
+              <ArrowRight />
+            </span>
+          </Button>
         </div>
       </div>
     </li>
