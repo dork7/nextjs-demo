@@ -1,24 +1,33 @@
-import EventList from '@/components/events/EventList';
-import { Inter } from '@next/font/google';
-import { getAllEvents, getFeaturedEvents } from '../dummy-data';
-import EventSearch from '@/components/events/EventSearch';
-import { useRouter } from 'next/router';
+import React from "react";
+import { readFile, readFileSync } from "fs";
+import path from "path";
 
-const inter = Inter({ subsets: ['latin'] });
-
-export default function Home() {
-  const featuredEvents = getAllEvents();
-  const router = useRouter();
-
-  const findEventHandler = (month: string, year: string) => {
-    const fullPath = `/events/${year}/${month}`;
-    router.push(fullPath);
-  };
-
+const HomePage = (props: any) => {
+  const { products } = props;
+  console.log(`productss`, products);
   return (
-    <>
-      <EventSearch onSearch={findEventHandler} />
-      <EventList events={featuredEvents} />
-    </>
+    <div>
+      <ul>
+        {products.map((product: any) => {
+          return <li key={product.id}>{product.title}</li>;
+        })}
+      </ul>
+    </div>
   );
+};
+
+export async function getStaticProps(props: any) {
+  console.log("Generating....");
+  const filePath = path.join(process.cwd(), "data", "dummy-data.json");
+  const jsonData: any = await readFileSync(filePath);
+  const data = JSON.parse(jsonData);
+
+  return {
+    props: {
+      products: data.products,
+    },
+    revalidate: 10,
+  };
 }
+
+export default HomePage;
