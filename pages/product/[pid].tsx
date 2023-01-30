@@ -24,13 +24,16 @@ export async function getStaticProps(context: any) {
 
   const productId = params.pid;
 
-  const filePath = path.join(process.cwd(), "data", "dummy-data.json");
-  const jsonData: any = await readFileSync(filePath);
-  const data = JSON.parse(jsonData);
+  const data = await getData();
 
   const filteredProduct = data.products.find(
     (product: any) => product.id === productId
   );
+
+  if (!filteredProduct)
+    return {
+      notFound: true,
+    };
 
   return {
     props: {
@@ -39,10 +42,10 @@ export async function getStaticProps(context: any) {
   };
 }
 
-export async function getStaticPaths(params: any) {
+export async function getStaticPaths() {
   const { products } = await getData();
   const ids = products.map((product: any) => product.id);
-  const paramsWithIds = ids.map((id) => ({ params: { pid: id } }));
+  const paramsWithIds = ids.map((id: any) => ({ params: { pid: id } }));
   return {
     paths: paramsWithIds,
     //paths: [
@@ -50,7 +53,7 @@ export async function getStaticPaths(params: any) {
     // { params: { pid: "p2" } },
     // { params: { pid: "p3" } },
     //  ],
-    fallback: false, // true | false | 'blocking' //  stop pre generating pages is set true,
+    fallback: true, // true | false | 'blocking' //  stop pre generating pages is set true,
     //and only prerender the pages mentioned in the path array
   };
 }
