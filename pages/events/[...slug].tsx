@@ -1,7 +1,10 @@
-import EventList from '@/components/events/EventList';
-import { getFilteredEvents } from '@/dummy-data';
-import { useRouter } from 'next/router';
-import React from 'react';
+import EventList from "@/components/events/EventList";
+import ResultsTitle from "@/components/events/results-title";
+import Button from "@/components/ui/Button";
+import ErrorAlert from "@/components/ui/error-alert";
+import { getFilteredEvents } from "@/dummy-data";
+import { useRouter } from "next/router";
+import React from "react";
 
 const FilteredEvents = () => {
   const router = useRouter();
@@ -27,11 +30,23 @@ const FilteredEvents = () => {
   // console.log('filteredEvents :>> ', filteredEvents);
 
   if (!filteredEvents || filteredEvents.length === 0) {
-    return <p>No event.....</p>;
+    return (
+      <>
+        <ErrorAlert>
+          <p>No event.....</p>
+          <div className="center">
+            <Button link="/events">Show All events</Button>
+          </div>
+        </ErrorAlert>
+      </>
+    );
   }
+
+  const date = new Date(filterYear, filterMonth - 1);
 
   return (
     <>
+      <ResultsTitle date={date} />
       <EventList events={filteredEvents} />
     </>
   );
