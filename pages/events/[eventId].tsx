@@ -6,13 +6,14 @@ import EventSummary from "../../components/event-detail/event-summary";
 import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
 import ErrorAlert from "@/components/ui/error-alert";
+import { getEventById_API, getEventPaths } from "helpers/api-utils";
 
-const EventDetail = () => {
+const EventDetail = (props: any) => {
   const {
     query: { eventId },
   } = useRouter();
 
-  const event: any = getEventById(eventId);
+  const event: any = props.event; // getEventById(eventId);
 
   console.log(event);
 
@@ -40,5 +41,24 @@ const EventDetail = () => {
     </>
   );
 };
+
+export async function getStaticProps(context: any) {
+  const eventId = context.params.eventId;
+  const eventData = await getEventById_API(eventId);
+  return {
+    props: {
+      event: eventData,
+    },
+  };
+}
+
+export async function getStaticPaths() {
+  const eventPaths = await getEventPaths();
+  console.log(`eventPaths+++++++++`, eventPaths);
+  return {
+    paths: eventPaths,
+    fallback: true,
+  };
+}
 
 export default EventDetail;
