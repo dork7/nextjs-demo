@@ -29,7 +29,7 @@ export function transformEventsData_FB(data: any) {
 }
 
 export async function getEventPaths() {
-  const events = await getAllEvents_API();
+  const events = await getFeaturedEvents_API();
   return events.map((event: any) => {
     return {
       params: {

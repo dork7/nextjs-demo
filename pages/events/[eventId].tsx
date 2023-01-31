@@ -19,9 +19,9 @@ const EventDetail = (props: any) => {
 
   if (!event) {
     return (
-      <ErrorAlert>
-        <p>No Event Found!</p>
-      </ErrorAlert>
+      <div className="center">
+        <p>Loading ....!</p>
+      </div>
     );
   }
 
@@ -49,12 +49,12 @@ export async function getStaticProps(context: any) {
     props: {
       event: eventData,
     },
+    revalidate: 60,
   };
 }
 
 export async function getStaticPaths() {
   const eventPaths = await getEventPaths();
-  console.log(`eventPaths+++++++++`, eventPaths);
   return {
     paths: eventPaths,
     fallback: true,

@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import React from 'react';
-import styles from './main-header.module.css';
+import Link from "next/link";
+import React from "react";
+import styles from "./main-header.module.css";
 
 const MainHeader = () => {
   return (
@@ -11,7 +11,7 @@ const MainHeader = () => {
       <nav className={styles.navigation}>
         <ul>
           <li>
-            <Link href="events">Browser all events</Link>
+            <Link href="/events">Browser all events</Link>
           </li>
         </ul>
       </nav>
