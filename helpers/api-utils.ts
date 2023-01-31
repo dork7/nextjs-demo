@@ -38,3 +38,17 @@ export async function getEventPaths() {
     };
   });
 }
+
+export async function getFilteredEvents_API(dateFilter: any) {
+  const { year, month } = dateFilter;
+  const events = await getAllEvents_API();
+  let filteredEvents = events.filter((event) => {
+    const eventDate = new Date(event.date);
+
+    return (
+      eventDate.getFullYear() === year && eventDate.getMonth() === month - 1
+    );
+  });
+
+  return filteredEvents;
+}
