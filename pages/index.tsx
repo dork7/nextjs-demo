@@ -7,6 +7,7 @@ import {
   getFeaturedEvents_API,
   transformEventsData_FB,
 } from "../helpers/api-utils";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,10 @@ export default function Home(props: any) {
 
   return (
     <>
+      <Head>
+        <title>Next JS events</title>
+        <meta name="description" content="important info for web crawlers" />
+      </Head>
       <EventSearch onSearch={findEventHandler} />
       <EventList events={featuredEvents} />
     </>

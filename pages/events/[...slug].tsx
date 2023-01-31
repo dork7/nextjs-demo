@@ -3,6 +3,7 @@ import ResultsTitle from "@/components/events/results-title";
 import Button from "@/components/ui/Button";
 import ErrorAlert from "@/components/ui/error-alert";
 import { getFilteredEvents } from "@/dummy-data";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -25,6 +26,14 @@ const FilteredEvents = () => {
     year: filterYear,
   });
 
+  const PageHead = () => {
+    return (
+      <Head>
+        <title> Filtered events</title>
+        <meta name="description" content="Page of filtered events" />
+      </Head>
+    );
+  };
   // console.log('filterMonth', filterMonth);
   // console.log('filterYear', filterYear);
   // console.log('filteredEvents :>> ', filteredEvents);
@@ -32,6 +41,7 @@ const FilteredEvents = () => {
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <>
+        <PageHead />
         <ErrorAlert>
           <p>No event.....</p>
           <div className="center">

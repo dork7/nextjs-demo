@@ -7,6 +7,7 @@ import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
 import ErrorAlert from "@/components/ui/error-alert";
 import { getEventById_API, getEventPaths } from "helpers/api-utils";
+import Head from "next/head";
 
 const EventDetail = (props: any) => {
   const {
@@ -27,6 +28,10 @@ const EventDetail = (props: any) => {
 
   return (
     <>
+      <Head>
+        <title> {event?.title}</title>
+        <meta name="description" content={event?.description} />
+      </Head>
       {/* <EventItem eventItem={eventDetails} /> */}
       <EventSummary title={event?.title} />
       <EventLogistics
