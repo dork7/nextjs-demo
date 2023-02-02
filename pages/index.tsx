@@ -8,6 +8,7 @@ import {
   transformEventsData_FB,
 } from "../helpers/api-utils";
 import Head from "next/head";
+import NewsletterRegistration from "@/components/input/NewsletterRegistration";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function Home(props: any) {
         <title>{process.env.title} </title>
         <meta name="description" content="important info for web crawlers" />
       </Head>
+      <NewsletterRegistration />
       <EventSearch onSearch={findEventHandler} />
       <EventList events={featuredEvents} />
     </>

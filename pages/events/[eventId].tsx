@@ -8,7 +8,7 @@ import EventContent from "../../components/event-detail/event-content";
 import ErrorAlert from "@/components/ui/error-alert";
 import { getEventById_API, getEventPaths } from "helpers/api-utils";
 import Head from "next/head";
-
+import Comments from "../../components/input/comments";
 const EventDetail = (props: any) => {
   const {
     query: { eventId },
@@ -47,6 +47,7 @@ const EventDetail = (props: any) => {
       <EventContent>
         <p>{event?.description}</p>
       </EventContent>
+      <Comments eventId={event.id} />
     </>
   );
 };
