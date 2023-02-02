@@ -12,17 +12,25 @@ export default function handler(
   res: NextApiResponse<any>
 ) {
   if (req.method === "POST") {
-    const { email } = req.body;
+    const { eventId } = req.query;
+    const { email, name, text } = req.body;
 
     const path = buildFeedbackPath();
     const data: any = extractFeedback(path);
-    data.push(email);
+    data.push({ email, name, text, eventId });
     fs.writeFileSync(path, JSON.stringify(data));
     return res.status(200).json({ email, msg: "data written" });
+  } else if (req.method === "GET") {
+    const { eventId } = req.query;
+
+    const path = buildFeedbackPath();
+    const data: any = extractFeedback(path);
+    const filteredData = data.filter((item: any) => item.eventId === eventId);
+    return res.status(200).json({ filteredData });
   }
 }
 export function buildFeedbackPath() {
-  return path.join(process.cwd(), "data", "newsletter.json");
+  return path.join(process.cwd(), "data", "comments.json");
 }
 
 export function extractFeedback(filePath: string) {
