@@ -7,7 +7,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 
-const FilteredEvents = () => {
+const FilteredEvents = (props: any) => {
+  const { title } = props;
   const router = useRouter();
   const filterData = router.query.slug;
   if (!filterData) {
@@ -29,7 +30,7 @@ const FilteredEvents = () => {
   const PageHead = () => {
     return (
       <Head>
-        <title> Filtered events</title>
+        <title> {title} Filtered events</title>
         <meta name="description" content="Page of filtered events" />
       </Head>
     );

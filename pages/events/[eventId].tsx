@@ -14,6 +14,8 @@ const EventDetail = (props: any) => {
     query: { eventId },
   } = useRouter();
 
+  const { title } = props;
+
   const event: any = props.event; // getEventById(eventId);
 
   console.log(event);
@@ -29,7 +31,9 @@ const EventDetail = (props: any) => {
   return (
     <>
       <Head>
-        <title> {event?.title}</title>
+        <title>
+          {title} - {event?.title}
+        </title>
         <meta name="description" content={event?.description} />
       </Head>
       {/* <EventItem eventItem={eventDetails} /> */}

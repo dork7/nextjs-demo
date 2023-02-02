@@ -3,13 +3,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
 import path from "path";
 type Data = {
-  name: string;
+  // name: string;
+  email: string;
+  feedback: string;
+  msg: string;
 };
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export default function handler(req: NextApiRequest, res: any) {
   if (req.method === "POST") {
     const { email, feedback } = req.body;
     console.log(`email, feedback`, email, feedback);
@@ -32,8 +32,6 @@ export default function handler(
     const data: any = extractFeedback(path);
     return res.status(200).json({ data });
   }
-
-  res.status(200).json({ name: "John Doe" });
 }
 
 export function buildFeedbackPath() {

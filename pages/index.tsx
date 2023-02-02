@@ -20,10 +20,12 @@ export default function Home(props: any) {
     router.push(fullPath);
   };
 
+  console.log(`props`, props);
+
   return (
     <>
       <Head>
-        <title>Next JS events</title>
+        <title>{process.env.title} </title>
         <meta name="description" content="important info for web crawlers" />
       </Head>
       <EventSearch onSearch={findEventHandler} />
