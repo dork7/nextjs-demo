@@ -14,26 +14,34 @@ export default function handler(
     const { email, feedback } = req.body;
     console.log(`email, feedback`, email, feedback);
 
-    const newFeedback = {
+    const newFeedback: any = {
       id: new Date().toISOString(),
       email,
       feedback,
     };
 
-    const filePath = path.join(process.cwd(), "data", "feedback.json");
-    const fileData: any = fs.readFileSync(filePath);
-    const data = JSON.parse(fileData);
+    const path = buildFeedbackPath();
+    const data: any = extractFeedback(path);
     data.push(newFeedback);
-    fs.writeFileSync(filePath, JSON.stringify(data));
+    fs.writeFileSync(path, JSON.stringify(data));
     return res.status(200).json({ email, feedback, msg: "data written" });
   }
 
   if (req.method === "GET") {
-    const filePath = path.join(process.cwd(), "data", "feedback.json");
-    const fileData: any = fs.readFileSync(filePath);
-    const data = JSON.parse(fileData);
+    const path = buildFeedbackPath();
+    const data: any = extractFeedback(path);
     return res.status(200).json({ data });
   }
 
   res.status(200).json({ name: "John Doe" });
+}
+
+export function buildFeedbackPath() {
+  return path.join(process.cwd(), "data", "feedback.json");
+}
+
+export function extractFeedback(filePath: string) {
+  const fileData: any = fs.readFileSync(filePath);
+  const data = JSON.parse(fileData);
+  return data;
 }
