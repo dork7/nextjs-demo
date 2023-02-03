@@ -38,8 +38,8 @@ function Comments(props) {
   }
 
   useEffect(() => {
-    fetchComments();
-  }, []);
+    if (showComments) fetchComments();
+  }, [showComments]);
 
   return (
     <section className={classes.comments}>

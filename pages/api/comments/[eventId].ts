@@ -1,40 +1,44 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs";
-import path from "path";
+import {
+  connectDataBase,
+  getCommentsByEventId,
+  insertDocument,
+} from "@/helpers/db-utils";
 
 type Data = {
   name: string;
 };
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
+  let client = null;
+  try {
+    client = await connectDataBase();
+  } catch (err) {
+    res.status(500).json({ msg: "unable to connect to db" });
+    return;
+  }
+
   if (req.method === "POST") {
     const { eventId } = req.query;
     const { email, name, text } = req.body;
-
-    const path = buildFeedbackPath();
-    const data: any = extractFeedback(path);
-    data.push({ email, name, text, eventId });
-    fs.writeFileSync(path, JSON.stringify(data));
-    return res.status(200).json({ email, msg: "data written" });
+    try {
+      await insertDocument(client, "comments", { email, name, text, eventId });
+    } catch (err) {
+      res.status(500).json({ msg: "unable to insert data" });
+    }
+    res.status(200).json({ msg: "data written" });
   } else if (req.method === "GET") {
     const { eventId } = req.query;
-
-    const path = buildFeedbackPath();
-    const data: any = extractFeedback(path);
-    const filteredData = data.filter((item: any) => item.eventId === eventId);
-    return res.status(200).json({ filteredData });
+    try {
+      const comments = await getCommentsByEventId(client, eventId);
+      res.status(200).json({ filteredData: comments });
+    } catch (err) {
+      res.status(500).json({ msg: "unable to fetch data" });
+    }
   }
-}
-export function buildFeedbackPath() {
-  return path.join(process.cwd(), "data", "comments.json");
-}
-
-export function extractFeedback(filePath: string) {
-  const fileData: any = fs.readFileSync(filePath);
-  const data = JSON.parse(fileData);
-  return data;
+  client.close();
 }
