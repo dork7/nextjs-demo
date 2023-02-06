@@ -21,8 +21,6 @@ export default function Home(props: any) {
     router.push(fullPath);
   };
 
-  console.log(`props`, props);
-
   return (
     <>
       <Head>
