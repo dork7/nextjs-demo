@@ -50,21 +50,16 @@ function Comments(props) {
       <button onClick={toggleCommentsHandler}>
         {showComments ? "Hide" : "Show"} Comments
       </button>
-      <NewComment onAddComment={addCommentHandler} />{" "}
-      {
-        showLoader ? (
-          <div class="loader"></div>
-        ) : (
-          showComments && (
-            <>
-              <CommentList {...{ commentList }} />
-            </>
-          )
+      {showComments && <NewComment onAddComment={addCommentHandler} />}
+      {showLoader ? (
+        <div class="loader"></div>
+      ) : (
+        showComments && (
+          <>
+            <CommentList {...{ commentList }} />
+          </>
         )
-        //  <CommentList {...{ commentList }} />
-      }
-      {/* {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments && <CommentList {...{ commentList }} />} */}
+      )}
     </section>
   );
 }
