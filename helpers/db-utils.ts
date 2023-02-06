@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
 export async function connectDataBase() {
-  return await MongoClient.connect(process.env.connectionString);
+  const dbString: any = process?.env.connectionString;
+  return await MongoClient.connect(dbString);
 }
 
 export async function insertDocument(
@@ -12,7 +13,7 @@ export async function insertDocument(
   return await db.collection(collection).insertOne(document);
 }
 
-export async function getCommentsByEventId(client: any, eventId) {
+export async function getCommentsByEventId(client: any, eventId: any) {
   const db = client.db();
   return await db
     .collection("comments")

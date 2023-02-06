@@ -6,8 +6,15 @@ const NotificationContext = createContext({
   hideNotification: function () {},
 });
 
+export type NotificationType = {
+  title: string;
+  message: string;
+  status: string;
+};
+
 export function NotificationContextProvider(props: any) {
-  const [activeNotification, setActiveNotification] = useState();
+  const [activeNotification, setActiveNotification] =
+    useState<NotificationType | null>();
   useEffect(() => {
     if (activeNotification && activeNotification?.status !== "pending") {
       const timer = setTimeout(() => {
@@ -25,7 +32,7 @@ export function NotificationContextProvider(props: any) {
   function hideNotificationHandler() {
     setActiveNotification(null);
   }
-  const context = {
+  const context: any = {
     notification: activeNotification,
     showNotification: showNotificationHandler,
     hideNotification: hideNotificationHandler,

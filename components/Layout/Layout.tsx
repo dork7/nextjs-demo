@@ -6,7 +6,7 @@ import MainHeader from "./MainHeader";
 const Layout = (props: any) => {
   const notificationContext = useContext(NotificationContext);
 
-  const { notification } = notificationContext;
+  const notification: any = notificationContext.notification;
   return (
     <>
       <MainHeader />
